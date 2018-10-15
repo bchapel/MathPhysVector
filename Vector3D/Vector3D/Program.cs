@@ -7,6 +7,155 @@ using System.Numerics;
 
 namespace Vector3D
 {
+
+    class Program
+    {
+
+       static double bigG = 6.67e-11;
+       static float earthMass = 5.98e+24f; //kg
+       static float earthRadius = 6378; //km
+
+        static void Main(string[] args)
+        {
+            bool oneD = false;
+            Console.WriteLine("Enter 1 for 1D problem");
+
+            if (oneD == true)
+            {
+                //float 
+            }
+            else
+            {
+
+                float time = 10f; //seconds
+
+                Vector3D earthPos = new Vector3D(0,0,0);
+                float altitude = 0f;
+
+                //Space ship Attributes
+                float mass = 225f;  //kg
+                Vector3D acceleration = new Vector3D(0, 0, 0);
+                Vector3D newAcceleration = new Vector3D(0, 0, 0);
+                Vector3D energyCalculation = new Vector3D(0, 0, 0);
+                Vector3D position = new Vector3D(0, 6778, 0); //km
+                Vector3D newPosition = new Vector3D(0, 0, 0);
+                Vector3D velocity = new Vector3D(0, 0, 0);
+                Vector3D newVelocity = new Vector3D(0, 0, 0);
+
+
+
+
+                Console.WriteLine(earthMass);
+
+                //GRAVITY FORMULA
+                //F = Gm1m2/r2,
+                //Force = earthMass * shipMass / (earthRadius * earthRadius)
+
+
+
+                int i = 0;
+                while (i < 36000)
+                {
+                    //VELOCITY VERLET FORMULA.
+
+
+
+                    //CALCULATE ENERGY
+                    float energyHeading = (float) Math.Atan2(earthPos.GetX(), position.GetX());
+                    Console.WriteLine("Energy Heading: " + energyHeading);
+                    energyCalculation.SetRectGivenMagHeadPitch((earthMass * mass) / (earthRadius * earthRadius), energyHeading, 0f);
+                    //Console.WriteLine("X: " + energyCalculation.GetX() + " Y: " + energyCalculation.GetY());
+                    //OUTPUT ALTITUDE AND TOTAL ENERGY EVERY FRAME.
+                    
+                    //R→new = R→old + V→old Δt + ½ a→old Δt^2
+
+
+                    newPosition.SetRectGivenRect(position.GetX() + velocity.GetX() * time + 0.5f * acceleration.GetX() * time * time,
+                    position.GetY() + velocity.GetY() * time + 0.5f * acceleration.GetY() * time * time, 0);
+
+                    //newPosition.SumRect()
+
+                    Console.WriteLine("Current Position: ");
+                    newPosition.PrintRect();
+
+                    //a⃗ new=Fnet⃗  / m.
+                    // ACCELERATION BASED OFF OF ENERGY
+                    newAcceleration.SetRectGivenRect(energyCalculation.GetX() / mass,
+                    energyCalculation.GetY() / mass, 0);
+
+
+                    //Console.WriteLine("Acceleration:");
+                    //newAcceleration.PrintRect();
+
+                    //V→new = V→old + (a→new + a→old) * 0.5 * Δt
+
+                    newVelocity.SetRectGivenRect(velocity.GetX() + (acceleration.GetX() + newAcceleration.GetX()) * 0.5f * time,
+                    velocity.GetY() + (acceleration.GetY() + newAcceleration.GetY()) * 0.5f * time, 0);
+
+                    //Console.WriteLine("Current Velocity");
+                    //newVelocity.PrintRect();
+                    //Console.ReadLine();
+
+                    Vector3D distanceChange = new Vector3D(newPosition.GetX() - position.GetX(), newPosition.GetY() - position.GetY(), 0);
+                    float force = (float) Math.Sqrt((distanceChange.GetX() * distanceChange.GetX()) + (distanceChange.GetY() * distanceChange.GetY()));
+
+                    float totalEnergy = GetKE(mass,newVelocity.GetNormalizedPosition()) + GetPE(mass, newPosition);
+
+                    Console.WriteLine("PE: " + GetPE(mass, newPosition));
+                    Console.WriteLine("KE: " + GetKE(mass, newVelocity.GetNormalizedPosition()));
+
+
+
+                    altitude = newPosition.GetDistance(earthPos, earthRadius);
+
+
+                    //a→old = a→new
+                    acceleration.SetRectGivenRect(newAcceleration.GetX(), newAcceleration.GetY(), 0);
+                    velocity.SetRectGivenRect(newVelocity.GetX(), newVelocity.GetY(), 0);
+                    position.SetRectGivenRect(newPosition.GetX(), newPosition.GetY(), 0);
+
+
+                    if (newPosition.GetDistance(earthPos, earthRadius + 1000) <= 0f)                    
+                        Console.WriteLine("Ship has burned up in atmosphere. :(");
+                    else
+                    {
+                        Console.WriteLine("Altitude: " + altitude);
+                        Console.WriteLine("Energy of Spaceship " + totalEnergy);
+                    }
+
+
+                    i += (int)time;
+
+                    Console.WriteLine("Time Elapsed: " + i + " seconds");
+                }
+
+                Console.ReadLine();
+            }
+
+
+        }
+
+        //Calculate Potential Energy. Mass is in KG.  Height is in meters.
+        public static float GetPE(float mass, Vector3D position)
+        {
+            return -1f * (float)bigG * mass * (earthMass / position.GetMag());
+            // float PEShip = mass * altitude * 
+            //float potentialEnergy(Vector3 pos, float shipmass)
+            //return -1f * BigG * shipmass * (starmass / (pos - StarPos).magnitude))
+
+            //Force of Gravity = G * ( ) / (mass^2)
+
+        }
+        //Calculate Kinetic Energy
+        public static float GetKE(float mass, float velocity)
+        {
+            float energy = 0.5f * mass * (velocity * velocity);
+
+            return energy;
+        }
+    }
+
+
     class Vector3D
     {
 
@@ -215,6 +364,31 @@ namespace Vector3D
             float degrees = 180 / (float)Math.PI;
             return degrees;
         }
+
+        public float GetDistance(Vector3D vectorRef, float size)
+        {
+
+            float Distance = (vectorRef.GetX() - GetX()) * (vectorRef.GetX() - GetX())
+                + (vectorRef.GetY() - GetY()) * (vectorRef.GetY() - GetY())
+                + (vectorRef.GetZ() - GetZ()) * (vectorRef.GetZ() - GetZ());
+
+
+            return Distance;
+        }
+        //Gets the heading from the current vector to the specified vector.
+        public float GetHeadingOfVector(Vector3D vectorRef)
+        {
+            double tempHeading = X / Math.Sqrt(X * X + Y * Y);
+            tempHeading = Math.Cos(tempHeading);
+            return (float)tempHeading;
+        }
+
+        public float GetNormalizedPosition()
+        {
+            return (float) Math.Sqrt((X * X) + (Y * Y) + (Z * Z));
+        }
+
+
 
     }
 }
