@@ -10,151 +10,387 @@ namespace Vector3D
 
     class Program
     {
+        Vector3D vector1 = new Vector3D(0, 0, 0, 0);
+        Vector3D vector2 = new Vector3D(0, 0, 0, 0);
+        Vector3D vector3 = new Vector3D(0, 0, 0, 0);
+        Vector3D vector4 = new Vector3D(0, 0, 0, 0);
 
-       static double bigG = 6.67e-11;
-       static float earthMass = 5.98e+24f; //kg
-       static float earthRadius = 6378; //km
+        Vector3D centerVector = new Vector3D(0, 0, 0, 0);
+        Vector3D scaleVector = new Vector3D(1, 1, 1, 1);
+        Vector3D translateVector = new Vector3D(1, 1, 1, 1);
+
 
         static void Main(string[] args)
         {
-            bool oneD = false;
-            Console.WriteLine("Enter 1 for 1D problem");
+            Vector3D pointOne = new Vector3D(4, 2, 0);
+            Vector3D pointTwo = new Vector3D(4, 4, 0);
+            Vector3D pointThree = new Vector3D(2, 2, 0);
+            Vector3D pointFour = new Vector3D(2, 4, 0);
 
-            if (oneD == true)
+            //1. Design your own 3D object, and give the coordinates of its vertices using homogeneous  //coordinates at a location away from the origin. (To truly be a 3D object, it must have at least   //four noncollinear points. But if you make your object too complicated, you may not be able to  //easily interpret the results.)
+
+            Vector3D centerPoint = new Vector3D(1, 1, 0);
+            //Define this mathematically to be center of above points.
+            //Add X component of all 4 points, divide by 4, add Y component of all 4 points, divide by 4, Z component is 0 because all 4 Vectors are Zero Z.
+            pointOne.PrintRect();
+            pointTwo.PrintRect();
+            pointThree.PrintRect();
+            pointFour.PrintRect();
+
+            Console.WriteLine();
+            Console.WriteLine();
+
+            Console.WriteLine("Raw Scaling X values by 15%");
+            //2. Give the 4x4 matrix that would perform a raw scaling of your object with a 15% increase in length in the x-direction, a 25% decrease in the y-direction, and reflecting it in the z-direction.Then do the multiplication on your object and obtain the new coordinates. (Of course, this scaling will have unintended translation effects.)
+            Vector3D scaleMatrix = new Vector3D(1.15f, 1.25f, -1f, 1f);
+
+            pointOne.SetRectGivenRect(pointOne.GetX() * 1.15f, pointOne.GetY(), pointOne.GetZ());
+            pointTwo.SetRectGivenRect(pointTwo.GetX() * 1.15f, pointTwo.GetY(), pointTwo.GetZ());
+            pointThree.SetRectGivenRect(pointThree.GetX() * 1.15f, pointThree.GetY(), pointThree.GetZ());
+            pointFour.SetRectGivenRect(pointFour.GetX() * 1.15f, pointFour.GetY(), pointFour.GetZ());
+
+            Console.WriteLine();
+
+            pointOne.PrintRect();
+            pointTwo.PrintRect();
+            pointThree.PrintRect();
+            pointFour.PrintRect();
+
+            Console.WriteLine();
+
+            Console.WriteLine("Raw Scaling Y values by 25%");
+
+            pointOne.SetRectGivenRect(pointOne.GetX(), pointOne.GetY() * 1.25f, pointOne.GetZ());
+            pointTwo.SetRectGivenRect(pointTwo.GetX(), pointTwo.GetY() * 1.25f, pointTwo.GetZ());
+            pointThree.SetRectGivenRect(pointThree.GetX(), pointThree.GetY() * 1.25f, pointThree.GetZ());
+            pointFour.SetRectGivenRect(pointFour.GetX(), pointFour.GetY() * 1.25f, pointFour.GetZ());
+
+            Console.WriteLine();
+
+            pointOne.PrintRect();
+            pointTwo.PrintRect();
+            pointThree.PrintRect();
+            pointFour.PrintRect();
+
+            Console.WriteLine();
+
+            Console.WriteLine("Reflecting Object on Z axis.");
+
+            pointOne.SetRectGivenRect(pointOne.GetX() * -1, pointOne.GetY() * -1, pointOne.GetZ());
+            pointTwo.SetRectGivenRect(pointTwo.GetX() * -1, pointTwo.GetY() * -1, pointTwo.GetZ());
+            pointThree.SetRectGivenRect(pointThree.GetX() * -1, pointThree.GetY() * -1, pointThree.GetZ());
+            pointFour.SetRectGivenRect(pointFour.GetX() * -1, pointFour.GetY() * -1, pointFour.GetZ());
+
+            Console.WriteLine();
+
+            pointOne.PrintRect();
+            pointTwo.PrintRect();
+            pointThree.PrintRect();
+            pointFour.PrintRect();
+
+
+
+
+            ////Get 15% of the value of the lowest 2 X coordinates, and subtract that numberr from their X  //coordinates.   IE:  PointOne.SetRectGivenRect(PointOne.GetX() - tempX, PointOne.GetY(), 0)
+            ////Calculate this value for the higher two points, add it to their X.  
+            //// IE:  PointThree.SetRectGivenRect(PointThree.GetX() + tempX, PointOne.GetY(), 0)
+
+            ////Get 25% of the value of the lowest 2 Y coordinates, add that number to their Y coordinate.
+            ////PointThree.SetRectGivenRect(PointThree.GetX(), PointOne.GetY() + tempY, 0)
+
+            ////Calculate this value for higher two points, subtract from their Y.
+            ////PointOne.SetRectGivenRect(PointOne.GetX(), PointOne.GetY() - tempY, 0)
+
+            ////Reflect the Object in the Z axis, so times the X and Y positions by -1.
+
+            //////^ In event above calculations don’t result in raw scaling, instead just multiply their values.
+            ////// IE: X * 1.15f, 
+
+
+
+            //3. Estimate the center of your object. Translate this center to the origin, then perform the scaling described in question #2, then return the center to the original location. What are the new coordinates?
+
+            ////centerPont = getX of all 4 objects / 4, getY of all 4 objects / 4, get Z of all 4 objects / 4.
+            ////
+            Console.ReadLine();
+            Console.Clear();
+            Program testProgram = new Program();
+            Vector3D[] vectors = new Vector3D[4];
+            int number = 0;
+            vectors[0] = testProgram.vector1;
+            vectors[1] = testProgram.vector2;
+            vectors[2] = testProgram.vector3;
+            vectors[3] = testProgram.vector4;
+            float tempX;
+            float tempY;
+            float tempZ;
+            while (number < 4)
             {
-                //float 
+                Console.WriteLine("Please Provide an X value for Vector " + (number + 1));
+                tempX = float.Parse(Console.ReadLine());
+                Console.WriteLine("Please Provide an Y value for Vector " + (number + 1));
+                tempY = float.Parse(Console.ReadLine());
+                Console.WriteLine("Please Provide an Z value for Vector " + (number + 1));
+                tempZ = float.Parse(Console.ReadLine());
+
+                Console.WriteLine();
+
+                vectors[number].SetRectGivenRect(tempX, tempY, tempZ);
+
+                Console.WriteLine();
+                number++;
             }
-            else
+
+            Console.WriteLine();
+            Console.WriteLine("Please Provide an X value for the Center Vector");
+            tempX = float.Parse(Console.ReadLine());
+            Console.WriteLine("Please Provide an Y value for the Center Vector");
+            tempY = float.Parse(Console.ReadLine());
+            Console.WriteLine("Please Provide an Z value for the Center Vector");
+            tempZ = float.Parse(Console.ReadLine());
+
+            testProgram.centerVector.SetRectGivenRect(tempX, tempY, tempZ);
+
+            Console.ReadLine();
+            Console.Clear();
+            testProgram.CallSwitch(0);
+
+
+
+            //3. Test your code with the operations described in the prelab questions.
+            //4. Execute the above program, for your instructor’s verification.
+            //initials:
+            //5. Save your class files! We will use them again in the rotation lab.
+            Console.ReadLine();
+        }
+
+        public void CallSwitch(int startingTime)
+        {
+            //multiplication by a scaling about a center matrix
+            //2. Create a program that transforms the object you chose in prelab question #1. Specifically, the program should:
+            //ask the user for the vertices of the object
+            ////While loop to ask user 4 times. Console.WriteLine(“Input object vertex “ + i);
+            //ask the user for the center of the object
+            //ask the user to enter the type of transformation(translation or raw scaling or scaling about a center)
+            //ask the user for the needed parameters for that type of transformation(i.e.scaling factors, translation directions)
+            //perform the transformation
+            //report the new vertices
+            //report the new center
+            //repeatedly ask for new transformations until terminated by the user
+            ////Write out each option with “1.” etc in front, user selects by choosing number.  Default switch, incase illegible input, asks again.
+            ////Use a Switch statement with seperate cases for each function.
+
+
+            float tempX;
+            float tempY;
+            float tempZ;
+
+            int i = startingTime;
+            while (i < 4)
             {
+                Console.WriteLine("Loop Amount: " + i);
 
-                float time = 10f; //seconds
+                Console.WriteLine("Please Choose an Operation:");
+                Console.WriteLine();
+                Console.WriteLine("(1.) Translate the Object");
+                Console.WriteLine("(2.) Scale the Object Raw");
+                Console.WriteLine("(3.) Scale the Object around it's Center");
 
-                Vector3D earthPos = new Vector3D(0,0,0);
-                float altitude = 0f;
+                Console.WriteLine();
 
-                //Space ship Attributes
-                float mass = 225f;  //kg
-                Vector3D acceleration = new Vector3D(0, 0, 0);
-                Vector3D newAcceleration = new Vector3D(0, 0, 0);
-                Vector3D energyCalculation = new Vector3D(0, 0, 0);
-                Vector3D position = new Vector3D(0, 6778, 0); //km
-                Vector3D newPosition = new Vector3D(0, 0, 0);
-                Vector3D velocity = new Vector3D(0, 0, 0);
-                Vector3D newVelocity = new Vector3D(0, 0, 0);
+                int choice = Convert.ToInt32(Console.ReadLine());
+                switch (choice)
 
-
-
-
-                Console.WriteLine(earthMass);
-
-                //GRAVITY FORMULA
-                //F = Gm1m2/r2,
-                //Force = earthMass * shipMass / (earthRadius * earthRadius)
-
-
-
-                int i = 0;
-                while (i < 36000)
                 {
-                    //VELOCITY VERLET FORMULA.
+                    case 1:
+                        Console.WriteLine("Translating Object");
+
+                        Vector3D translate1 = new Vector3D(0, 0, 0, 0);
+                        Vector3D translate2 = new Vector3D(0, 0, 0, 0);
+                        Vector3D translate3 = new Vector3D(0, 0, 0, 0);
+                        Vector3D translate4 = new Vector3D(0, 0, 0, 0);
+
+                        Console.WriteLine("How much do you want to translate the object's X value by?");
+                        tempX = float.Parse(Console.ReadLine());
+                        Console.WriteLine("How much do you want to translate the object's Y value by?");
+                        tempY = float.Parse(Console.ReadLine());
+                        Console.WriteLine("How much do you want to translate the object's Z value by?");
+                        tempZ = float.Parse(Console.ReadLine());
+
+                        scaleVector.SetRectGivenRect(tempX, tempY, tempZ);
+
+                        translate1.SetRectGivenRect(1, 0, 0, vector1.GetX() + scaleVector.GetX());
+                        translate2.SetRectGivenRect(0, 1, 0, vector1.GetY() + scaleVector.GetY());
+                        translate3.SetRectGivenRect(0, 0, 1, vector1.GetZ() + scaleVector.GetZ());
+                        translate4.SetRectGivenRect(0, 0, 0, 1);
+
+                        Console.WriteLine();
+                        translate1.PrintMatrix();
+                        translate2.PrintMatrix();
+                        translate3.PrintMatrix();
+                        translate4.PrintMatrix();
+
+                        Console.WriteLine("New Vector 1");
+                        vector1.SetRectGivenRect(translate1.GetW(), translate2.GetW(), translate3.GetW());
+                        Console.WriteLine();
+                        vector1.PrintRect();
+
+                        Console.ReadLine();
+                        //Console.Clear();
+
+                        translate1.SetRectGivenRect(1, 0, 0, vector2.GetX() + scaleVector.GetX());
+                        translate2.SetRectGivenRect(0, 1, 0, vector2.GetY() + scaleVector.GetY());
+                        translate3.SetRectGivenRect(0, 0, 1, vector2.GetZ() + scaleVector.GetZ());
+                        translate4.SetRectGivenRect(0, 0, 0, 1);
+
+                        Console.WriteLine();
+                        translate1.PrintMatrix();
+                        translate2.PrintMatrix();
+                        translate3.PrintMatrix();
+                        translate4.PrintMatrix();
+
+                        Console.WriteLine("New Vector 2");
+                        vector2.SetRectGivenRect(translate1.GetW(), translate2.GetW(), translate3.GetW());
+                        Console.WriteLine();
+                        vector2.PrintRect();
+
+                        Console.ReadLine();
+                        //Console.Clear();
+
+                        translate1.SetRectGivenRect(1, 0, 0, vector3.GetX() + scaleVector.GetX());
+                        translate2.SetRectGivenRect(0, 1, 0, vector3.GetY() + scaleVector.GetY());
+                        translate3.SetRectGivenRect(0, 0, 1, vector3.GetZ() + scaleVector.GetZ());
+                        translate4.SetRectGivenRect(0, 0, 0, 1);
+
+                        Console.WriteLine();
+                        translate1.PrintMatrix();
+                        translate2.PrintMatrix();
+                        translate3.PrintMatrix();
+                        translate4.PrintMatrix();
+
+                        Console.WriteLine("New Vector 3");
+                        vector3.SetRectGivenRect(translate1.GetW(), translate2.GetW(), translate3.GetW());
+                        Console.WriteLine();
+                        vector3.PrintRect();
+
+                        Console.ReadLine();
+                        //Console.Clear();
 
 
+                        translate1.SetRectGivenRect(1, 0, 0, vector4.GetX() + scaleVector.GetX());
+                        translate2.SetRectGivenRect(0, 1, 0, vector4.GetY() + scaleVector.GetY());
+                        translate3.SetRectGivenRect(0, 0, 1, vector4.GetZ() + scaleVector.GetZ());
+                        translate4.SetRectGivenRect(0, 0, 0, 1);
 
-                    //CALCULATE ENERGY
-                    float energyHeading = (float) Math.Atan2(earthPos.GetX(), position.GetX());
-                    Console.WriteLine("Energy Heading: " + energyHeading);
-                    energyCalculation.SetRectGivenMagHeadPitch((earthMass * mass) / (earthRadius * earthRadius), energyHeading, 0f);
-                    //Console.WriteLine("X: " + energyCalculation.GetX() + " Y: " + energyCalculation.GetY());
-                    //OUTPUT ALTITUDE AND TOTAL ENERGY EVERY FRAME.
-                    
-                    //R→new = R→old + V→old Δt + ½ a→old Δt^2
+                        Console.WriteLine();
+                        translate1.PrintMatrix();
+                        translate2.PrintMatrix();
+                        translate3.PrintMatrix();
+                        translate4.PrintMatrix();
 
+                        Console.WriteLine("New Vector 4");
+                        vector4.SetRectGivenRect(translate1.GetW(), translate2.GetW(), translate3.GetW());
+                        Console.WriteLine();
+                        vector4.PrintRect();
 
-                    newPosition.SetRectGivenRect(position.GetX() + velocity.GetX() * time + 0.5f * acceleration.GetX() * time * time,
-                    position.GetY() + velocity.GetY() * time + 0.5f * acceleration.GetY() * time * time, 0);
+                        Console.ReadLine();
+                        Console.Clear();
 
-                    //newPosition.SumRect()
+                        i++;
+                        break;
 
-                    Console.WriteLine("Current Position: ");
-                    newPosition.PrintRect();
+                    case 2:
+                        Console.WriteLine("How much do you want to Raw Scale the object's X value by?");
+                        Console.WriteLine("  (IE: 1.15 would be increasing by 15, while 0.85 would be decreasing by 15%)");
+                        tempX = float.Parse(Console.ReadLine());
 
-                    //a⃗ new=Fnet⃗  / m.
-                    // ACCELERATION BASED OFF OF ENERGY
-                    newAcceleration.SetRectGivenRect(energyCalculation.GetX() / mass,
-                    energyCalculation.GetY() / mass, 0);
+                        Console.WriteLine("How much do you want to Raw Scale the object's Y value by?");
+                        Console.WriteLine("  (IE: 1.15 would be increasing by 15, while 0.85 would be decreasing by 15%)");
+                        tempY = float.Parse(Console.ReadLine());
 
+                        Console.WriteLine("How much do you want to Raw Scale the object's Z value by?");
+                        Console.WriteLine("  (IE: 1.15 would be increasing by 15, while 0.85 would be decreasing by 15%)");
+                        tempZ = float.Parse(Console.ReadLine());
 
-                    //Console.WriteLine("Acceleration:");
-                    //newAcceleration.PrintRect();
+                        scaleVector.SetRectGivenRect(tempX, tempY, tempZ);
 
-                    //V→new = V→old + (a→new + a→old) * 0.5 * Δt
+                        vector1.MatrixRawScale(scaleVector.GetX(), scaleVector.GetY(), scaleVector.GetZ(), scaleVector.GetW());
+                        vector2.MatrixRawScale(scaleVector.GetX(), scaleVector.GetY(), scaleVector.GetZ(), scaleVector.GetW());
+                        vector3.MatrixRawScale(scaleVector.GetX(), scaleVector.GetY(), scaleVector.GetZ(), scaleVector.GetW());
+                        vector4.MatrixRawScale(scaleVector.GetX(), scaleVector.GetY(), scaleVector.GetZ(), scaleVector.GetW());
 
-                    newVelocity.SetRectGivenRect(velocity.GetX() + (acceleration.GetX() + newAcceleration.GetX()) * 0.5f * time,
-                    velocity.GetY() + (acceleration.GetY() + newAcceleration.GetY()) * 0.5f * time, 0);
+                        Console.WriteLine();
+                        vector1.PrintRect();
+                        vector2.PrintRect();
+                        vector3.PrintRect();
+                        vector4.PrintRect();
 
-                    //Console.WriteLine("Current Velocity");
-                    //newVelocity.PrintRect();
-                    //Console.ReadLine();
+                        i++;
+                        break;
 
-                    Vector3D distanceChange = new Vector3D(newPosition.GetX() - position.GetX(), newPosition.GetY() - position.GetY(), 0);
-                    float force = (float) Math.Sqrt((distanceChange.GetX() * distanceChange.GetX()) + (distanceChange.GetY() * distanceChange.GetY()));
+                    case 3:
+                        Console.WriteLine("Scaling about the Center of the object.");
 
-                    float totalEnergy = GetKE(mass,newVelocity.GetNormalizedPosition()) + GetPE(mass, newPosition);
+                        Console.WriteLine("How much do you want to Scale the object's X value by?");
+                        Console.WriteLine("  (IE: 1.15 would be increasing by 15, while 0.85 would be decreasing by 15%)");
+                        tempX = float.Parse(Console.ReadLine());
+                        Console.WriteLine("How much do you want to Scale the object's X value by?");
+                        Console.WriteLine("  (IE: 1.15 would be increasing by 15, while 0.85 would be decreasing by 15%)");
+                        tempY = float.Parse(Console.ReadLine());
+                        Console.WriteLine("How much do you want to Scale the object's X value by?");
+                        Console.WriteLine("  (IE: 1.15 would be increasing by 15, while 0.85 would be decreasing by 15%)");
+                        tempZ = float.Parse(Console.ReadLine());
 
-                    Console.WriteLine("PE: " + GetPE(mass, newPosition));
-                    Console.WriteLine("KE: " + GetKE(mass, newVelocity.GetNormalizedPosition()));
+                        scaleVector.SetRectGivenRect(tempX, tempY, tempZ);
 
+                        vector1.MatrixCenterScale(scaleVector.GetX(), scaleVector.GetY(), scaleVector.GetZ(), scaleVector.GetW(), centerVector.GetX(), centerVector.GetY(), centerVector.GetZ());
+                        vector2.MatrixCenterScale(scaleVector.GetX(), scaleVector.GetY(), scaleVector.GetZ(), scaleVector.GetW(), centerVector.GetX(), centerVector.GetY(), centerVector.GetZ());
+                        vector3.MatrixCenterScale(scaleVector.GetX(), scaleVector.GetY(), scaleVector.GetZ(), scaleVector.GetW(), centerVector.GetX(), centerVector.GetY(), centerVector.GetZ());
+                        vector4.MatrixCenterScale(scaleVector.GetX(), scaleVector.GetY(), scaleVector.GetZ(), scaleVector.GetW(), centerVector.GetX(), centerVector.GetY(), centerVector.GetZ());
 
+                        Console.WriteLine();
+                        vector1.PrintRect();
+                        vector2.PrintRect();
+                        vector3.PrintRect();
+                        vector4.PrintRect();
 
-                    altitude = newPosition.GetDistance(earthPos, earthRadius);
+                        i++;
+                        break;
 
+                    default:
+                        Console.WriteLine("Invalid Input, please try again.");
+                        CallSwitch(i);
+                        break;
 
-                    //a→old = a→new
-                    acceleration.SetRectGivenRect(newAcceleration.GetX(), newAcceleration.GetY(), 0);
-                    velocity.SetRectGivenRect(newVelocity.GetX(), newVelocity.GetY(), 0);
-                    position.SetRectGivenRect(newPosition.GetX(), newPosition.GetY(), 0);
-
-
-                    if (newPosition.GetDistance(earthPos, earthRadius + 1000) <= 0f)                    
-                        Console.WriteLine("Ship has burned up in atmosphere. :(");
-                    else
-                    {
-                        Console.WriteLine("Altitude: " + altitude);
-                        Console.WriteLine("Energy of Spaceship " + totalEnergy);
-                    }
-
-
-                    i += (int)time;
-
-                    Console.WriteLine("Time Elapsed: " + i + " seconds");
                 }
-
-                Console.ReadLine();
             }
 
+            Console.Clear();
+            Console.WriteLine("Final Result of Operations");
+
+            Console.WriteLine();
+
+            vector1.PrintRect();
+            vector2.PrintRect();
+            vector3.PrintRect();
+            vector4.PrintRect();
+
 
         }
 
-        //Calculate Potential Energy. Mass is in KG.  Height is in meters.
-        public static float GetPE(float mass, Vector3D position)
-        {
-            return -1f * (float)bigG * mass * (earthMass / position.GetMag());
-            // float PEShip = mass * altitude * 
-            //float potentialEnergy(Vector3 pos, float shipmass)
-            //return -1f * BigG * shipmass * (starmass / (pos - StarPos).magnitude))
-
-            //Force of Gravity = G * ( ) / (mass^2)
-
-        }
-        //Calculate Kinetic Energy
-        public static float GetKE(float mass, float velocity)
-        {
-            float energy = 0.5f * mass * (velocity * velocity);
-
-            return energy;
-        }
     }
 
+
+    //1. Extend your 3D vector class to include the following new methods:
+    //a general constructor for a 4D vector
+    // ^ DONE
+
+    //a dot product operation using all four components
+
+    //multiplication by a translation matrix
+
+    //multiplication by a raw scaling matrix(IE: 5 * Vector(1, 2,3) = 5, 10 15)
+    //	Already Done, is caled “MultiplyRect”  --- Consider rename to ScaleRect?
 
     class Vector3D
     {
@@ -177,6 +413,14 @@ namespace Vector3D
             Z = initZ;
         }
 
+        public Vector3D(float initX, float initY, float initZ, float initW)
+        {
+            X = initX;
+            Y = initY;
+            Z = initZ;
+            W = initW;
+        }
+
         //Set the X, Y, and Z values of the 
         public void SetRectGivenRect(float inputX, float inputY, float inputZ)
         {
@@ -184,10 +428,23 @@ namespace Vector3D
             Y = inputY;
             Z = inputZ;
         }
+        public void SetRectGivenRect(float inputX, float inputY, float inputZ, float inputW)
+        {
+            X = inputX;
+            Y = inputY;
+            Z = inputZ;
+            W = inputW;
+        }
         //Print the X, Y, and Z coordinate of this vector.
         public void PrintRect()
         {
             Console.WriteLine("(" + X + ", " + Y + ", " + Z + ")");
+        }
+
+        //Print the X, Y, and Z coordinate of this vector.
+        public void PrintMatrix()
+        {
+            Console.WriteLine("(" + X + ", " + Y + ", " + Z + ", " + W + ")");
         }
         //Print the magnitude of this vector. Square Root of ( x*x + y*y + z*z)
         public void PrintMag()
@@ -209,6 +466,12 @@ namespace Vector3D
         public float GetZ()
         {
             return Z;
+        }
+
+        //Returns the private W value;
+        public float GetW()
+        {
+            return W;
         }
 
         //Calculate and return the magnitude of the vector.
@@ -252,8 +515,8 @@ namespace Vector3D
             Z -= z;
         }
 
-        //Multiples the rect by the input values.
-        public void MultiplyRect(float input)
+        //Scales/Multiplies the rect by the input values.
+        public void ScaleRect(float input)
         {
             X *= input;
             Y *= input;
@@ -385,9 +648,41 @@ namespace Vector3D
 
         public float GetNormalizedPosition()
         {
-            return (float) Math.Sqrt((X * X) + (Y * Y) + (Z * Z));
+            return (float)Math.Sqrt((X * X) + (Y * Y) + (Z * Z));
         }
 
+        public void DotProduct4D()
+        {
+
+        }
+
+        public void MatrixTranslation(float vectorX, float vectorY, float vectorZ, float vectorW)
+        {
+
+        }
+
+        public void MatrixRawScale(float vectorX, float vectorY, float vectorZ, float vectorW)
+        {
+            X *= vectorX;
+            Y *= vectorY;
+            Z *= vectorZ;
+        }
+
+        //Scales the object around the Center point by the first specified Vector, with the second specified vector being the center point..
+        public void MatrixCenterScale(float vectorX, float vectorY, float vectorZ, float vectorW, float centerX, float centerY, float centerZ)
+        {
+            X -= centerX;
+            Y -= centerY;
+            Z -= centerZ;
+
+            X *= vectorX;
+            Y *= vectorY;
+            Z *= vectorZ;
+
+            X += centerX;
+            Y += centerY;
+            Z += centerZ;
+        }
 
 
     }
