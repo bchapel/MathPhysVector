@@ -22,6 +22,11 @@ namespace Vector3D
 
         static void Main(string[] args)
         {
+
+
+
+            //The following is a test scenario used to explore the initial "Prepatory Thoughts" Section of the Lab.
+            //I am keeping it in as a proof of concept for manually typing out the actions rather than creating a function for them.
             Vector3D pointOne = new Vector3D(4, 2, 0);
             Vector3D pointTwo = new Vector3D(4, 4, 0);
             Vector3D pointThree = new Vector3D(2, 2, 0);
@@ -87,43 +92,32 @@ namespace Vector3D
             pointTwo.PrintRect();
             pointThree.PrintRect();
             pointFour.PrintRect();
-
-
-
-
-            ////Get 15% of the value of the lowest 2 X coordinates, and subtract that numberr from their X  //coordinates.   IE:  PointOne.SetRectGivenRect(PointOne.GetX() - tempX, PointOne.GetY(), 0)
-            ////Calculate this value for the higher two points, add it to their X.  
-            //// IE:  PointThree.SetRectGivenRect(PointThree.GetX() + tempX, PointOne.GetY(), 0)
-
-            ////Get 25% of the value of the lowest 2 Y coordinates, add that number to their Y coordinate.
-            ////PointThree.SetRectGivenRect(PointThree.GetX(), PointOne.GetY() + tempY, 0)
-
-            ////Calculate this value for higher two points, subtract from their Y.
-            ////PointOne.SetRectGivenRect(PointOne.GetX(), PointOne.GetY() - tempY, 0)
-
-            ////Reflect the Object in the Z axis, so times the X and Y positions by -1.
-
-            //////^ In event above calculations don’t result in raw scaling, instead just multiply their values.
-            ////// IE: X * 1.15f, 
-
-
-
-            //3. Estimate the center of your object. Translate this center to the origin, then perform the scaling described in question #2, then return the center to the original location. What are the new coordinates?
-
-            ////centerPont = getX of all 4 objects / 4, getY of all 4 objects / 4, get Z of all 4 objects / 4.
-            ////
             Console.ReadLine();
             Console.Clear();
+
+            //******************************************************************/
+            //Program properly starts here.
+
+
+            //Instantiates a new version of Program, and creates a Vector3D array, holding 4 vectors.
             Program testProgram = new Program();
             Vector3D[] vectors = new Vector3D[4];
-            int number = 0;
+
             vectors[0] = testProgram.vector1;
             vectors[1] = testProgram.vector2;
             vectors[2] = testProgram.vector3;
             vectors[3] = testProgram.vector4;
+
+            //This value is used for the while loop below, to ensure every Vector from the array above is cycled through.
+            int number = 0;  
+
+
+            //Temp variables used to store a user input from a console.readline().
             float tempX;
             float tempY;
             float tempZ;
+
+            //This loop uses the Vector Array created above so that the User may specify the X, Y, Z values of all of every Vector.
             while (number < 4)
             {
                 Console.WriteLine("Please Provide an X value for Vector " + (number + 1));
@@ -135,12 +129,13 @@ namespace Vector3D
 
                 Console.WriteLine();
 
+                //Each Vector correspondingly has it's X,Y,Z components assigned.
                 vectors[number].SetRectGivenRect(tempX, tempY, tempZ);
 
                 Console.WriteLine();
                 number++;
             }
-
+            //After the While loop is finished, it asks the user for a center point.
             Console.WriteLine();
             Console.WriteLine("Please Provide an X value for the Center Vector");
             tempX = float.Parse(Console.ReadLine());
@@ -149,47 +144,27 @@ namespace Vector3D
             Console.WriteLine("Please Provide an Z value for the Center Vector");
             tempZ = float.Parse(Console.ReadLine());
 
+            //These coordinates are then assigned to the centerVector's X,Y,Z components.
             testProgram.centerVector.SetRectGivenRect(tempX, tempY, tempZ);
 
             Console.ReadLine();
             Console.Clear();
             testProgram.CallSwitch(0);
-
-
-
-            //3. Test your code with the operations described in the prelab questions.
-            //4. Execute the above program, for your instructor’s verification.
-            //initials:
-            //5. Save your class files! We will use them again in the rotation lab.
             Console.ReadLine();
         }
 
+        //This function contains the bulk of the program.  It was created as an easy way to restart the while loop it contains, in event of user inputting invalid data.
         public void CallSwitch(int startingTime)
         {
-            //multiplication by a scaling about a center matrix
-            //2. Create a program that transforms the object you chose in prelab question #1. Specifically, the program should:
-            //ask the user for the vertices of the object
-            ////While loop to ask user 4 times. Console.WriteLine(“Input object vertex “ + i);
-            //ask the user for the center of the object
-            //ask the user to enter the type of transformation(translation or raw scaling or scaling about a center)
-            //ask the user for the needed parameters for that type of transformation(i.e.scaling factors, translation directions)
-            //perform the transformation
-            //report the new vertices
-            //report the new center
-            //repeatedly ask for new transformations until terminated by the user
-            ////Write out each option with “1.” etc in front, user selects by choosing number.  Default switch, incase illegible input, asks again.
-            ////Use a Switch statement with seperate cases for each function.
-
-
+            //Temp variables for storing user input.
             float tempX;
             float tempY;
             float tempZ;
 
-            int i = startingTime;
+            int i = startingTime;  //Initially called at Zero, allows this function to be called with a higher initial I value, such as default case in While loop below.
             while (i < 4)
             {
-                Console.WriteLine("Loop Amount: " + i);
-
+                //User is prompted to choose one of three operations on their Vectors.
                 Console.WriteLine("Please Choose an Operation:");
                 Console.WriteLine();
                 Console.WriteLine("(1.) Translate the Object");
@@ -198,18 +173,19 @@ namespace Vector3D
 
                 Console.WriteLine();
 
-                int choice = Convert.ToInt32(Console.ReadLine());
+                int choice = Convert.ToInt32(Console.ReadLine());  //User's choice is stored and used in the switch.
                 switch (choice)
-
                 {
                     case 1:
                         Console.WriteLine("Translating Object");
 
+                        //4D Vectors are created so the User can see a more Mathematical representation of the Vector changes.
                         Vector3D translate1 = new Vector3D(0, 0, 0, 0);
                         Vector3D translate2 = new Vector3D(0, 0, 0, 0);
                         Vector3D translate3 = new Vector3D(0, 0, 0, 0);
                         Vector3D translate4 = new Vector3D(0, 0, 0, 0);
 
+                        //User is Prompted for X, Y, and Z changes, this data is then stored.
                         Console.WriteLine("How much do you want to translate the object's X value by?");
                         tempX = float.Parse(Console.ReadLine());
                         Console.WriteLine("How much do you want to translate the object's Y value by?");
@@ -217,8 +193,11 @@ namespace Vector3D
                         Console.WriteLine("How much do you want to translate the object's Z value by?");
                         tempZ = float.Parse(Console.ReadLine());
 
+                        //ScaleVector is a temporary vector used to store said variables.
                         scaleVector.SetRectGivenRect(tempX, tempY, tempZ);
 
+
+                        //The temporary translate Vectors are given data, and printed.
                         translate1.SetRectGivenRect(1, 0, 0, vector1.GetX() + scaleVector.GetX());
                         translate2.SetRectGivenRect(0, 1, 0, vector1.GetY() + scaleVector.GetY());
                         translate3.SetRectGivenRect(0, 0, 1, vector1.GetZ() + scaleVector.GetZ());
@@ -230,14 +209,15 @@ namespace Vector3D
                         translate3.PrintMatrix();
                         translate4.PrintMatrix();
 
+                        //The first Vector is translated and printed.
                         Console.WriteLine("New Vector 1");
                         vector1.SetRectGivenRect(translate1.GetW(), translate2.GetW(), translate3.GetW());
                         Console.WriteLine();
                         vector1.PrintRect();
 
                         Console.ReadLine();
-                        //Console.Clear();
 
+                        //The temporary translate Vectors are given data, and printed.
                         translate1.SetRectGivenRect(1, 0, 0, vector2.GetX() + scaleVector.GetX());
                         translate2.SetRectGivenRect(0, 1, 0, vector2.GetY() + scaleVector.GetY());
                         translate3.SetRectGivenRect(0, 0, 1, vector2.GetZ() + scaleVector.GetZ());
@@ -249,13 +229,15 @@ namespace Vector3D
                         translate3.PrintMatrix();
                         translate4.PrintMatrix();
 
+                        //The Second Vector is translated and printed.
                         Console.WriteLine("New Vector 2");
                         vector2.SetRectGivenRect(translate1.GetW(), translate2.GetW(), translate3.GetW());
                         Console.WriteLine();
                         vector2.PrintRect();
 
                         Console.ReadLine();
-                        //Console.Clear();
+
+                        //And so on....
 
                         translate1.SetRectGivenRect(1, 0, 0, vector3.GetX() + scaleVector.GetX());
                         translate2.SetRectGivenRect(0, 1, 0, vector3.GetY() + scaleVector.GetY());
@@ -274,8 +256,6 @@ namespace Vector3D
                         vector3.PrintRect();
 
                         Console.ReadLine();
-                        //Console.Clear();
-
 
                         translate1.SetRectGivenRect(1, 0, 0, vector4.GetX() + scaleVector.GetX());
                         translate2.SetRectGivenRect(0, 1, 0, vector4.GetY() + scaleVector.GetY());
@@ -299,65 +279,93 @@ namespace Vector3D
                         i++;
                         break;
 
-                    case 2:
+                    case 2: //User is prompted by how much they'd like to scale the X, Y, and Z components by.
                         Console.WriteLine("How much do you want to Raw Scale the object's X value by?");
-                        Console.WriteLine("  (IE: 1.15 would be increasing by 15, while 0.85 would be decreasing by 15%)");
+                        Console.WriteLine("1.15 would be increasing by 15, while 0.85 would be decreasing by 15%)");
                         tempX = float.Parse(Console.ReadLine());
 
                         Console.WriteLine("How much do you want to Raw Scale the object's Y value by?");
-                        Console.WriteLine("  (IE: 1.15 would be increasing by 15, while 0.85 would be decreasing by 15%)");
                         tempY = float.Parse(Console.ReadLine());
 
                         Console.WriteLine("How much do you want to Raw Scale the object's Z value by?");
-                        Console.WriteLine("  (IE: 1.15 would be increasing by 15, while 0.85 would be decreasing by 15%)");
                         tempZ = float.Parse(Console.ReadLine());
 
+                        //ScaleVector tempVector is temporarily staffed by tempX, tempY, tempZ.
                         scaleVector.SetRectGivenRect(tempX, tempY, tempZ);
 
+                        //The new Function MatrixRawScale is called on each Vector, with the scaleVector's X,Y,Z,W values called against it.
                         vector1.MatrixRawScale(scaleVector.GetX(), scaleVector.GetY(), scaleVector.GetZ(), scaleVector.GetW());
                         vector2.MatrixRawScale(scaleVector.GetX(), scaleVector.GetY(), scaleVector.GetZ(), scaleVector.GetW());
                         vector3.MatrixRawScale(scaleVector.GetX(), scaleVector.GetY(), scaleVector.GetZ(), scaleVector.GetW());
                         vector4.MatrixRawScale(scaleVector.GetX(), scaleVector.GetY(), scaleVector.GetZ(), scaleVector.GetW());
-
+                        
+                        //Every Vector is then printed out with a label.
                         Console.WriteLine();
+                        Console.WriteLine("Vector One:");
                         vector1.PrintRect();
+                        Console.WriteLine();
+
+                        Console.WriteLine("Vector Two:");
                         vector2.PrintRect();
+                        Console.WriteLine();
+
+                        Console.WriteLine("Vector Three:");
                         vector3.PrintRect();
+                        Console.WriteLine();
+
+                        Console.WriteLine("Vector Four:");
                         vector4.PrintRect();
+                        Console.WriteLine();
+
+                        Console.ReadLine();
 
                         i++;
                         break;
 
-                    case 3:
+                    case 3: //User is prompted by how much they'd like to scale the X, Y, and Z components by.
                         Console.WriteLine("Scaling about the Center of the object.");
 
                         Console.WriteLine("How much do you want to Scale the object's X value by?");
-                        Console.WriteLine("  (IE: 1.15 would be increasing by 15, while 0.85 would be decreasing by 15%)");
+                        Console.WriteLine("(IE: 1.15 would be increasing by 15, while 0.85 would be decreasing by 15%)");
                         tempX = float.Parse(Console.ReadLine());
                         Console.WriteLine("How much do you want to Scale the object's X value by?");
-                        Console.WriteLine("  (IE: 1.15 would be increasing by 15, while 0.85 would be decreasing by 15%)");
                         tempY = float.Parse(Console.ReadLine());
                         Console.WriteLine("How much do you want to Scale the object's X value by?");
-                        Console.WriteLine("  (IE: 1.15 would be increasing by 15, while 0.85 would be decreasing by 15%)");
                         tempZ = float.Parse(Console.ReadLine());
 
+                        //ScaleVector temp Vector is temporarily staffed by tempX, tempY, tempZ.
                         scaleVector.SetRectGivenRect(tempX, tempY, tempZ);
 
+                        //New Function MatrixCenterScale is called by every numbered Vector, using the XYZW of the scaleVector, and the XYZ of the previously defined centerVector.
                         vector1.MatrixCenterScale(scaleVector.GetX(), scaleVector.GetY(), scaleVector.GetZ(), scaleVector.GetW(), centerVector.GetX(), centerVector.GetY(), centerVector.GetZ());
                         vector2.MatrixCenterScale(scaleVector.GetX(), scaleVector.GetY(), scaleVector.GetZ(), scaleVector.GetW(), centerVector.GetX(), centerVector.GetY(), centerVector.GetZ());
                         vector3.MatrixCenterScale(scaleVector.GetX(), scaleVector.GetY(), scaleVector.GetZ(), scaleVector.GetW(), centerVector.GetX(), centerVector.GetY(), centerVector.GetZ());
                         vector4.MatrixCenterScale(scaleVector.GetX(), scaleVector.GetY(), scaleVector.GetZ(), scaleVector.GetW(), centerVector.GetX(), centerVector.GetY(), centerVector.GetZ());
 
+                        //All Vectors are then printed and labeled.
                         Console.WriteLine();
+                        Console.WriteLine("Vector One:");
                         vector1.PrintRect();
+                        Console.WriteLine();
+
+                        Console.WriteLine("Vector Two:");
                         vector2.PrintRect();
+                        Console.WriteLine();
+
+                        Console.WriteLine("Vector Three:");
                         vector3.PrintRect();
+                        Console.WriteLine();
+
+                        Console.WriteLine("Vector Four:");
                         vector4.PrintRect();
+                        Console.WriteLine();
+
+                        Console.ReadLine();
 
                         i++;
                         break;
 
-                    default:
+                    default: //If user selects an invalid choice, it informs them of this and recalls the function without resetting the i value.
                         Console.WriteLine("Invalid Input, please try again.");
                         CallSwitch(i);
                         break;
@@ -365,18 +373,32 @@ namespace Vector3D
                 }
             }
 
+            //At conclusion of loop, clears console and informs user, before printing out the final results of all the changes.
             Console.Clear();
             Console.WriteLine("Final Result of Operations");
 
             Console.WriteLine();
 
+            Console.WriteLine();
+            Console.WriteLine("Vector One:");
             vector1.PrintRect();
+            Console.WriteLine();
+
+            Console.WriteLine("Vector Two:");
             vector2.PrintRect();
+            Console.WriteLine();
+
+            Console.WriteLine("Vector Three:");
             vector3.PrintRect();
+            Console.WriteLine();
+
+            Console.WriteLine("Vector Four:");
             vector4.PrintRect();
+            Console.WriteLine();
 
+            Console.ReadLine();
 
-        }
+            Console.ReadLine();        }
 
     }
 
@@ -412,7 +434,7 @@ namespace Vector3D
             Y = initY;
             Z = initZ;
         }
-
+        //Overloaded constructor allowing for additional defining of a W value.
         public Vector3D(float initX, float initY, float initZ, float initW)
         {
             X = initX;
@@ -428,6 +450,8 @@ namespace Vector3D
             Y = inputY;
             Z = inputZ;
         }
+        
+        //Overloaded SetRectGivenRect function, allowing for inputing a W value.
         public void SetRectGivenRect(float inputX, float inputY, float inputZ, float inputW)
         {
             X = inputX;
@@ -441,7 +465,8 @@ namespace Vector3D
             Console.WriteLine("(" + X + ", " + Y + ", " + Z + ")");
         }
 
-        //Print the X, Y, and Z coordinate of this vector.
+        //PrintMatrix lets the user print all Vector values, even W.  
+        //This was made as a seperate function rather than an Overload, because W is present in all Vector3s.
         public void PrintMatrix()
         {
             Console.WriteLine("(" + X + ", " + Y + ", " + Z + ", " + W + ")");
@@ -468,7 +493,7 @@ namespace Vector3D
             return Z;
         }
 
-        //Returns the private W value;
+        //Returns the private W value.
         public float GetW()
         {
             return W;
@@ -499,7 +524,7 @@ namespace Vector3D
             //Polar form is 2D!
             Z = 0;
         }
-
+        //Adds the input xyz values to the X Y Z of this vector.
         public void SumRect(float x, float y, float z)
         {
             X += x;
@@ -615,6 +640,7 @@ namespace Vector3D
             return gamma;
         }
 
+        //Converts the input degrees back into radians.
         public float DegreeToRad(float degree)
         {
             float rad = degree * (float)Math.PI / 180;
@@ -622,12 +648,14 @@ namespace Vector3D
             return rad;
         }
 
+        //Converts the input Radians into degrees.
         public float RadtoDegrees(float rad)
         {
             float degrees = 180 / (float)Math.PI;
             return degrees;
         }
 
+        //Gets the Distance between 
         public float GetDistance(Vector3D vectorRef, float size)
         {
 
@@ -646,26 +674,39 @@ namespace Vector3D
             return (float)tempHeading;
         }
 
+        //Normalizes the position of the Vector to be positive.
         public float GetNormalizedPosition()
         {
             return (float)Math.Sqrt((X * X) + (Y * Y) + (Z * Z));
         }
+        //Does a Dot Product but in 3D.
+        public void DotProduct3D()
+        {
 
+        }
+
+        //Does a Dot Product but in 4D.
         public void DotProduct4D()
         {
 
         }
 
+        //Translates this vector's components by values from another Matrix.
         public void MatrixTranslation(float vectorX, float vectorY, float vectorZ, float vectorW)
         {
-
+            X += vectorX;
+            Y += vectorY;
+            Z += vectorZ;
+            W += vectorW;
         }
 
+        //Scales this vector by a Matrix. 
         public void MatrixRawScale(float vectorX, float vectorY, float vectorZ, float vectorW)
         {
             X *= vectorX;
             Y *= vectorY;
             Z *= vectorZ;
+            W *= vectorW;
         }
 
         //Scales the object around the Center point by the first specified Vector, with the second specified vector being the center point..
