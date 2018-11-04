@@ -5,9 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Numerics;
 
+//Author: Bowen Chapel October 29th, 2018.
+//Vector3D Class/Program: This namespace contains the Vector3D class and the relevant test program to this lab.  
+//The Vector3D class is the basic building block of a custom physics engine.  It allows the storing of an X, Y, Z, coordinate for keeping track of an object, as well as holding numerous
+//functions for either modifying the vector or calculations between it and other vectors.
 namespace Vector3D
 {
-
+    //Program Class Purpose: To test translation, scaling, and center-scaling functions added to the Vector3D class.
     class Program
     {
         Vector3D vector1 = new Vector3D(0, 0, 0, 0);
@@ -22,83 +26,6 @@ namespace Vector3D
 
         static void Main(string[] args)
         {
-
-
-
-            //The following is a test scenario used to explore the initial "Prepatory Thoughts" Section of the Lab.
-            //I am keeping it in as a proof of concept for manually typing out the actions rather than creating a function for them.
-            Vector3D pointOne = new Vector3D(4, 2, 0);
-            Vector3D pointTwo = new Vector3D(4, 4, 0);
-            Vector3D pointThree = new Vector3D(2, 2, 0);
-            Vector3D pointFour = new Vector3D(2, 4, 0);
-
-            //1. Design your own 3D object, and give the coordinates of its vertices using homogeneous  //coordinates at a location away from the origin. (To truly be a 3D object, it must have at least   //four noncollinear points. But if you make your object too complicated, you may not be able to  //easily interpret the results.)
-
-            Vector3D centerPoint = new Vector3D(1, 1, 0);
-            //Define this mathematically to be center of above points.
-            //Add X component of all 4 points, divide by 4, add Y component of all 4 points, divide by 4, Z component is 0 because all 4 Vectors are Zero Z.
-            pointOne.PrintRect();
-            pointTwo.PrintRect();
-            pointThree.PrintRect();
-            pointFour.PrintRect();
-
-            Console.WriteLine();
-            Console.WriteLine();
-
-            Console.WriteLine("Raw Scaling X values by 15%");
-            //2. Give the 4x4 matrix that would perform a raw scaling of your object with a 15% increase in length in the x-direction, a 25% decrease in the y-direction, and reflecting it in the z-direction.Then do the multiplication on your object and obtain the new coordinates. (Of course, this scaling will have unintended translation effects.)
-            Vector3D scaleMatrix = new Vector3D(1.15f, 1.25f, -1f, 1f);
-
-            pointOne.SetRectGivenRect(pointOne.GetX() * 1.15f, pointOne.GetY(), pointOne.GetZ());
-            pointTwo.SetRectGivenRect(pointTwo.GetX() * 1.15f, pointTwo.GetY(), pointTwo.GetZ());
-            pointThree.SetRectGivenRect(pointThree.GetX() * 1.15f, pointThree.GetY(), pointThree.GetZ());
-            pointFour.SetRectGivenRect(pointFour.GetX() * 1.15f, pointFour.GetY(), pointFour.GetZ());
-
-            Console.WriteLine();
-
-            pointOne.PrintRect();
-            pointTwo.PrintRect();
-            pointThree.PrintRect();
-            pointFour.PrintRect();
-
-            Console.WriteLine();
-
-            Console.WriteLine("Raw Scaling Y values by 25%");
-
-            pointOne.SetRectGivenRect(pointOne.GetX(), pointOne.GetY() * 1.25f, pointOne.GetZ());
-            pointTwo.SetRectGivenRect(pointTwo.GetX(), pointTwo.GetY() * 1.25f, pointTwo.GetZ());
-            pointThree.SetRectGivenRect(pointThree.GetX(), pointThree.GetY() * 1.25f, pointThree.GetZ());
-            pointFour.SetRectGivenRect(pointFour.GetX(), pointFour.GetY() * 1.25f, pointFour.GetZ());
-
-            Console.WriteLine();
-
-            pointOne.PrintRect();
-            pointTwo.PrintRect();
-            pointThree.PrintRect();
-            pointFour.PrintRect();
-
-            Console.WriteLine();
-
-            Console.WriteLine("Reflecting Object on Z axis.");
-
-            pointOne.SetRectGivenRect(pointOne.GetX() * -1, pointOne.GetY() * -1, pointOne.GetZ());
-            pointTwo.SetRectGivenRect(pointTwo.GetX() * -1, pointTwo.GetY() * -1, pointTwo.GetZ());
-            pointThree.SetRectGivenRect(pointThree.GetX() * -1, pointThree.GetY() * -1, pointThree.GetZ());
-            pointFour.SetRectGivenRect(pointFour.GetX() * -1, pointFour.GetY() * -1, pointFour.GetZ());
-
-            Console.WriteLine();
-
-            pointOne.PrintRect();
-            pointTwo.PrintRect();
-            pointThree.PrintRect();
-            pointFour.PrintRect();
-            Console.ReadLine();
-            Console.Clear();
-
-            //******************************************************************/
-            //Program properly starts here.
-
-
             //Instantiates a new version of Program, and creates a Vector3D array, holding 4 vectors.
             Program testProgram = new Program();
             Vector3D[] vectors = new Vector3D[4];
@@ -211,7 +138,7 @@ namespace Vector3D
 
                         //The first Vector is translated and printed.
                         Console.WriteLine("New Vector 1");
-                        vector1.SetRectGivenRect(translate1.GetW(), translate2.GetW(), translate3.GetW());
+                        vector1.MatrixTranslation(scaleVector.GetX(), scaleVector.GetY(), scaleVector.GetZ(), scaleVector.GetW());
                         Console.WriteLine();
                         vector1.PrintRect();
 
@@ -231,7 +158,7 @@ namespace Vector3D
 
                         //The Second Vector is translated and printed.
                         Console.WriteLine("New Vector 2");
-                        vector2.SetRectGivenRect(translate1.GetW(), translate2.GetW(), translate3.GetW());
+                        vector2.MatrixTranslation(scaleVector.GetX(), scaleVector.GetY(), scaleVector.GetZ(), scaleVector.GetW());
                         Console.WriteLine();
                         vector2.PrintRect();
 
@@ -251,7 +178,7 @@ namespace Vector3D
                         translate4.PrintMatrix();
 
                         Console.WriteLine("New Vector 3");
-                        vector3.SetRectGivenRect(translate1.GetW(), translate2.GetW(), translate3.GetW());
+                        vector3.MatrixTranslation(scaleVector.GetX(), scaleVector.GetY(), scaleVector.GetZ(), scaleVector.GetW());
                         Console.WriteLine();
                         vector3.PrintRect();
 
@@ -269,7 +196,7 @@ namespace Vector3D
                         translate4.PrintMatrix();
 
                         Console.WriteLine("New Vector 4");
-                        vector4.SetRectGivenRect(translate1.GetW(), translate2.GetW(), translate3.GetW());
+                        vector4.MatrixTranslation(scaleVector.GetX(), scaleVector.GetY(), scaleVector.GetZ(), scaleVector.GetW());
                         Console.WriteLine();
                         vector4.PrintRect();
 
@@ -328,9 +255,9 @@ namespace Vector3D
                         Console.WriteLine("How much do you want to Scale the object's X value by?");
                         Console.WriteLine("(IE: 1.15 would be increasing by 15, while 0.85 would be decreasing by 15%)");
                         tempX = float.Parse(Console.ReadLine());
-                        Console.WriteLine("How much do you want to Scale the object's X value by?");
+                        Console.WriteLine("How much do you want to Scale the object's Y value by?");
                         tempY = float.Parse(Console.ReadLine());
-                        Console.WriteLine("How much do you want to Scale the object's X value by?");
+                        Console.WriteLine("How much do you want to Scale the object's Z value by?");
                         tempZ = float.Parse(Console.ReadLine());
 
                         //ScaleVector temp Vector is temporarily staffed by tempX, tempY, tempZ.
@@ -401,18 +328,6 @@ namespace Vector3D
             Console.ReadLine();        }
 
     }
-
-
-    //1. Extend your 3D vector class to include the following new methods:
-    //a general constructor for a 4D vector
-    // ^ DONE
-
-    //a dot product operation using all four components
-
-    //multiplication by a translation matrix
-
-    //multiplication by a raw scaling matrix(IE: 5 * Vector(1, 2,3) = 5, 10 15)
-    //	Already Done, is caled “MultiplyRect”  --- Consider rename to ScaleRect?
 
     class Vector3D
     {
@@ -680,15 +595,24 @@ namespace Vector3D
             return (float)Math.Sqrt((X * X) + (Y * Y) + (Z * Z));
         }
         //Does a Dot Product but in 3D.
-        public void DotProduct3D()
+        public float DotProduct3D(float inputX, float inputY, float inputZ)
         {
+            float tempX = X * inputX;
+            float tempY = Y * inputY;
+            float tempZ = Z * inputZ;
 
+            return tempX + tempY + tempZ;
         }
 
         //Does a Dot Product but in 4D.
-        public void DotProduct4D()
+        public float DotProduct4D(float inputX, float inputY, float inputZ, float inputW)
         {
+            float tempX = X * inputX;
+            float tempY = Y * inputY;
+            float tempZ = Z * inputZ;
+            float tempW = W * inputW;
 
+            return tempX + tempY + tempZ + tempW;
         }
 
         //Translates this vector's components by values from another Matrix.
@@ -724,7 +648,5 @@ namespace Vector3D
             Y += centerY;
             Z += centerZ;
         }
-
-
     }
 }
