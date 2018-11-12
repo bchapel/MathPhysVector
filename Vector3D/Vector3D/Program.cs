@@ -17,112 +17,114 @@ namespace Vector3D
 
         static void Main(string[] args)
         {
-            //Create Vectors
-            Vector3D ship = new Vector3D(0, 0, 0);
-            Vector3D targetObj = new Vector3D(0, 0, 0);
-            Vector3D targetObj2 = new Vector3D(0, 0, 0);
-            Vector3D plane1 = new Vector3D(0, 0, 0);
-            Vector3D plane2 = new Vector3D(0, 0, 0);
-            Vector3D plane3 = new Vector3D(0, 0, 0);
 
-            //Ask user for coordinates for ship, and set.
-            Console.WriteLine("Please input an X value for the Ship’s position.");
-            float tempX = float.Parse(Console.ReadLine());
-            Console.WriteLine("Please input an Y value for the Ship’s position.");
-            float tempY = float.Parse(Console.ReadLine());
-            Console.WriteLine("Please input an Z value for the Ship’s position.");
-            float tempZ = float.Parse(Console.ReadLine());
+            Console.WriteLine("Press 1. to enter Scenario one: Reflection, or anything else for Scenario Two: Two Objects");
+            //Scenario One
+            if (Console.ReadLine() == "1")
+            {
 
+                Vector3D iVelocity = new Vector3D(0, 0, 0);
 
-            ship.SetRectGivenRect(tempX, tempY, tempZ);
+                Vector3D fVelocity = new Vector3D(0, 0, 0);
 
-            Console.WriteLine("Ship’s Position:");
-            ship.PrintRect();
+                float E = 0f;
 
-            Console.ReadLine();
-            Console.WriteLine("Please input an X value for the object’s position.");
-            tempX = float.Parse(Console.ReadLine());
-            Console.WriteLine("Please input an Y value for the object’s position.");
-            tempY = float.Parse(Console.ReadLine());
-            Console.WriteLine("Please input an Z value for the object’s position.");
-            tempZ = float.Parse(Console.ReadLine());
-
-            targetObj.SetRectGivenRect(tempX, tempY, tempZ);
-            targetObj2.SetRectGivenRect(tempX, tempY, tempZ);
-            Console.WriteLine("Object’s Position:");
-            targetObj.PrintRect();
+                Vector3D vector1 = new Vector3D(0, 0, 0);
+                Vector3D vector2 = new Vector3D(0, 0, 0);
 
 
-            Console.ReadLine();
-            Console.WriteLine("Please input an X value for the object’s Direction Vector.");
-            tempX = float.Parse(Console.ReadLine());
-            Console.WriteLine("Please input an Y value for the object’s Direction Vector.");
-            tempY = float.Parse(Console.ReadLine());
-            Console.WriteLine("Please input an Z value for the object’s Direction Vector.");
-            tempZ = float.Parse(Console.ReadLine());
 
-            targetObj2.SumRect(tempX, tempY, tempZ);
-            Console.WriteLine("Object’s Direction Vector:");
-            targetObj2.PrintRect();
-            Console.ReadLine();
+                Console.WriteLine("What is the X Velocity of the object? (M/S)");
+                float tempX = float.Parse(Console.ReadLine());
+                Console.WriteLine("What is the Y Velocity of the object? (M/S)");
+                float tempY = float.Parse(Console.ReadLine());
+                Console.WriteLine("What is the Z Velocity of the object? (M/S)");
+                float tempZ = float.Parse(Console.ReadLine());
+                iVelocity.SetRectGivenRect(tempX, tempY, tempZ);
 
-            Vector3D lineS = targetObj.Line3DClosestPoint(targetObj, targetObj2, ship);
+                Console.WriteLine("What is the coefficient of Restitution, E?");
+                E = float.Parse(Console.ReadLine());
 
-            Console.WriteLine("Closest Point: ");
-            lineS.PrintRect();
-            Console.WriteLine("Distance: " + lineS.GetDistance(ship));
+                Console.WriteLine();
+
+                Console.WriteLine("What is the X coordinate of Vector One?");
+                tempX = float.Parse(Console.ReadLine());
+                Console.WriteLine("What is the Y coordinate of Vector One?");
+                tempY = float.Parse(Console.ReadLine());
+                Console.WriteLine("What is the Z coordinate of Vector One?");
+                tempZ = float.Parse(Console.ReadLine());
+                vector1.SetRectGivenRect(tempX, tempY, tempZ);
+
+                Console.WriteLine();
+
+                Console.WriteLine("What is the X coordinate of Vector Two?");
+                tempX = float.Parse(Console.ReadLine());
+                Console.WriteLine("What is the Y coordinate of Vector Two?");
+                tempY = float.Parse(Console.ReadLine());
+                Console.WriteLine("What is the Z coordinate of Vector Two?");
+                tempZ = float.Parse(Console.ReadLine());
+
+                vector2.SetRectGivenRect(tempX, tempY, tempZ);
+
+                Vector3D normal = vector1.VectorCrossProduct(vector1.GetX(), vector1.GetY(), vector1.GetZ(), vector2.GetX(), vector2.GetY(), vector2.GetZ());
+                Vector3D normalNormalized = new Vector3D(normal.GetX() / normal.GetNormalizedPosition(), normal.GetY() / normal.GetNormalizedPosition(), normal.GetZ() / normal.GetNormalizedPosition());
+
+                fVelocity.SetRectGivenRect(
+                    iVelocity.GetX() - (E + 1) * (iVelocity.DotProduct3D(normalNormalized.GetX(), normalNormalized.GetY(), normalNormalized.GetZ())) * normalNormalized.GetX(),
+                    iVelocity.GetY() - (E + 1) * (iVelocity.DotProduct3D(normalNormalized.GetX(), normalNormalized.GetY(), normalNormalized.GetZ())) * normalNormalized.GetY(),
+                    iVelocity.GetZ() - (E + 1) * (iVelocity.DotProduct3D(normalNormalized.GetX(), normalNormalized.GetY(), normalNormalized.GetZ())) * normalNormalized.GetZ());
+
+                Console.WriteLine("Final Velocity of Object (m/S)");
+                fVelocity.PrintRect();
+
+            }
+            //Scenario Two
+            else
+            {
+                float massObj1 = 0f;
+                float iVelocityObj1 = 0f;
+                float fVelocityObj1 = 0f;
+
+                float iVelocityObj2 = 0f;
+                float fVelocityObj2 = 0f;
+                float massObj2 = 0f;
+
+                float E = 0f;
+
+
+                Console.WriteLine("What is the Mass of Object One?  (KG)");
+                massObj1 = float.Parse(Console.ReadLine());
+
+                Console.WriteLine("What is the Velocity of Object One? (M/S)");
+                iVelocityObj1 = float.Parse(Console.ReadLine());
+
+                Console.WriteLine();
+
+                Console.WriteLine("What is the Mass of Object Two? (KG)");
+                massObj2 = float.Parse(Console.ReadLine());
+
+                Console.WriteLine("What is the Velocity of Object Two? (M/S)");
+                iVelocityObj2 = float.Parse(Console.ReadLine());
+
+                Console.WriteLine();
+
+                Console.WriteLine("What is the coefficient of Restitution, E?");
+                E = float.Parse(Console.ReadLine());
+
+                fVelocityObj1 = ((massObj1 - (E * massObj2)) * iVelocityObj1 + (1 + E) * massObj2 * iVelocityObj2) / (massObj1 + massObj2);
+                fVelocityObj2 = fVelocityObj1 + (E * (iVelocityObj1 - iVelocityObj2));
+
+                Console.WriteLine();
+
+                Console.WriteLine("Velocity of Object One: " + fVelocityObj1 + " m/s");
+                Console.WriteLine("Velocity of Object Two: " + fVelocityObj2 + " m/s");
+
+                //Theoretically the above works.
+            }
 
             Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine("Press Anything to clear and continue.");
             Console.ReadLine();
-            Console.Clear();
 
-            Console.WriteLine("Please input an X value for the first point’s position.");
-            tempX = float.Parse(Console.ReadLine());
-            Console.WriteLine("Please input an Y value for the first point’s position.");
-            tempY = float.Parse(Console.ReadLine());
-            Console.WriteLine("Please input an Z value for the first point’s position.");
-            tempZ = float.Parse(Console.ReadLine());
-
-            plane1.SetRectGivenRect(tempX, tempY, tempZ);
-            Console.WriteLine("Point #1 Position:");
-            plane1.PrintRect();
-
-
-            Console.WriteLine("Please input an X value for the second point’s position.");
-            tempX = float.Parse(Console.ReadLine());    
-            Console.WriteLine("Please input an Y value for the first point’s position.");
-            tempY = float.Parse(Console.ReadLine());
-            Console.WriteLine("Please input an Z value for the second point’s position.");
-            tempZ = float.Parse(Console.ReadLine());
-
-            plane2.SetRectGivenRect(tempX, tempY, tempZ);
-            Console.WriteLine("Point #2 Position:");
-            plane2.PrintRect();
-
-
-            Console.WriteLine("Please input an X value for the third point’s position.");
-            tempX = float.Parse(Console.ReadLine());
-            Console.WriteLine("Please input an Y value for the third point’s position.");
-            tempY = float.Parse(Console.ReadLine());
-            Console.WriteLine("Please input an Z value for the third point’s position.");
-            tempZ = float.Parse(Console.ReadLine());
-
-            plane3.SetRectGivenRect(tempX, tempY, tempZ);
-            Console.WriteLine("Point #3 Position:");
-            plane3.PrintRect();
-
-
-            //****DETERMINE DISTANCE BETWEEN EACH POINT AND THE SHIP, REPORT CLOSEST POINT, THEN STATE DISTANCE FROM IT TO SHIP * **
-            //Call function here.
-            Vector3D planeS = ship.PlaneClosestPoint(plane1, plane2, plane3, ship);
-
-            Console.WriteLine("Closest Point: ");
-            planeS.PrintRect();
-            //Distance is normalized Dot Product of point (S) and spaceship (Q)
-            Console.WriteLine("Distance: " + planeS.GetDistance(ship));
-            Console.ReadLine();
         }
     }
 
@@ -285,10 +287,6 @@ namespace Vector3D
             double tempY = mag * Math.Sin(heading) * Math.Cos(pitch);
             double tempZ = mag * Math.Sin(pitch);
 
-            //tempX = Math.Round(tempX, 3);
-            //tempY = Math.Round(tempY, 3);
-            //tempZ = Math.Round(tempY, 3);
-
             X += (float)tempX;
             Y += (float)tempY;
             Z += (float)tempZ;
@@ -369,9 +367,9 @@ namespace Vector3D
         public float GetDistance(Vector3D vectorRef)
         {
 
-            float Distance = (vectorRef.GetX() - GetX()) * (vectorRef.X - X)
+            float Distance = (float)Math.Sqrt((vectorRef.X - X) * (vectorRef.X - X)
                 + (vectorRef.Y - Y) * (vectorRef.Y - Y)
-                + (vectorRef.Z - Z * (vectorRef.Z - Z));
+                + (vectorRef.Z - Z) * (vectorRef.Z - Z));
 
 
             return Distance;
@@ -457,32 +455,39 @@ namespace Vector3D
 
         public Vector3D ParaProjection(float Vx, float Vy, float Vz, float Ux, float Uy, float Uz)
         {
-            Vector3D temp = VectorCrossProduct(Vx, Vy, Vz, Ux, Uy, Uz);
+            Vector3D temp = new Vector3D(Vx, Vy, Vz);
+            //float 
 
-            temp.X /= Vx * Vx;
-            temp.X *= Vx;
-            temp.Y /= Vy * Vy;
-            temp.Y *= Vy;
-            temp.Z /= Vz * Vz;
-            temp.Z *= Vz;
+            float scalar = temp.DotProduct3D(Ux, Uy, Uz) / ((Ux * Ux) + (Uy * Uy) + (Uz * Uz));
+
+            temp.X *= scalar;
+            temp.Y *= scalar;
+            temp.Z *= scalar;
+
+            Console.WriteLine();
+            Console.WriteLine("Para Projection: ");
+            temp.PrintRect();
+            Console.WriteLine();
 
             return temp;
         }
 
-        public void PerpProjection(float Vx, float Vy, float Vz, float Ux, float Uy, float Uz)
+        public Vector3D PerpProjection(float Vx, float Vy, float Vz, float Ux, float Uy, float Uz)
         {
             Vector3D output = new Vector3D(Ux, Uy, Uz);
             Vector3D temp = ParaProjection(Vx, Vy, Vz, Ux, Uy, Uz);
             output.SubtractRect(temp.X, temp.Y, temp.Z);
 
+            return output;
         }
 
         public Vector3D Line3DClosestPoint(Vector3D P, Vector3D Pvector, Vector3D Q)
         {
-            Vector3D paraProjection = new Vector3D(0, 0, 0);
+            Vector3D para = new Vector3D(0, 0, 0);
+            Vector3D PQ = new Vector3D(Q.X - P.X, Q.Y - P.Y, Q.Z - P.Z);
 
-            paraProjection = paraProjection.ParaProjection(Pvector.X, Pvector.Y, Pvector.Z, P.X, P.Y, P.Z);
-            Vector3D outputS = new Vector3D(P.X + paraProjection.X, P.Y + paraProjection.Y, P.Z + paraProjection.Z);
+            para = para.ParaProjection(PQ.X, PQ.Y, PQ.Z, Pvector.X, Pvector.Y, Pvector.Z);
+            Vector3D outputS = new Vector3D(P.X + para.X, P.Y + para.Y, P.Z + para.Z);
 
             return outputS;
         }
@@ -493,6 +498,7 @@ namespace Vector3D
             Vector3D V = new Vector3D(pointThree.X - pointOne.X, pointThree.Y - pointOne.Y, pointThree.Z - pointOne.Z);
 
             Vector3D Normal = U.VectorCrossProduct(U.X, U.Y, U.Z, V.X, V.Y, V.Z);
+            Normal.SetRectGivenRect((float)Math.Sqrt(Normal.X * Normal.X), (float)Math.Sqrt(Normal.Y * Normal.Y), (float)Math.Sqrt(Normal.Z * Normal.Z));
 
             //Normal & U combine into equation of Plane.
             //Problem is returning this...?
@@ -501,12 +507,12 @@ namespace Vector3D
 
         public Vector3D PlaneClosestPoint(Vector3D P, Vector3D R, Vector3D U, Vector3D Q)
         {
-            Vector3D normal = PlaneEquation(P, R, Q);
-            Vector3D PQPara = new Vector3D(0, 0, 0);
+            Vector3D normal = PlaneEquation(P, R, U);
+            Vector3D PQPerp = new Vector3D(0, 0, 0);
 
             Vector3D PQ = new Vector3D(Q.X - P.X, Q.Y - P.Y, Q.Z - P.Z);
-            PQPara = PQ.ParaProjection(normal.X, normal.Y, normal.Z, PQ.X, PQ.Y, PQ.Z);
-            Vector3D outputS = new Vector3D(Q.X - PQPara.X, Q.Y - PQPara.Y, Q.Z - PQPara.Z);
+            PQPerp = PQ.PerpProjection(normal.X, normal.Y, normal.Z, PQ.X, PQ.Y, PQ.Z);
+            Vector3D outputS = new Vector3D(Q.X - PQPerp.X, Q.Y - PQPerp.Y, Q.Z - PQPerp.Z);
 
             return outputS;
         }
