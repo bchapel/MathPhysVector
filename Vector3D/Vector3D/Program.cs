@@ -11,29 +11,30 @@ using System.Numerics;
 //functions for either modifying the vector or calculations between it and other vectors.
 namespace Vector3D
 {
-    //Program Class Purpose: To test translation, scaling, and center-scaling functions added to the Vector3D class.
+    //Program Class Purpose: To test the new velocity of an object after collision with another object.  
     class Program
     {
 
         static void Main(string[] args)
         {
-
+            //Prompt User To Enter a scenario.
             Console.WriteLine("Press 1. to enter Scenario one: Reflection, or anything else for Scenario Two: Two Objects");
             //Scenario One
             if (Console.ReadLine() == "1")
             {
 
-                Vector3D iVelocity = new Vector3D(0, 0, 0);
+                //Velocity Vectors for the Object.  
+                Vector3D iVelocity = new Vector3D(0, 0, 0);     //Initial Velocity (M/S)
+                Vector3D fVelocity = new Vector3D(0, 0, 0);     //Final Velocity (M/S)
 
-                Vector3D fVelocity = new Vector3D(0, 0, 0);
+                float E = 0f;                                   //restitution Coefficient.
 
-                float E = 0f;
-
-                Vector3D vector1 = new Vector3D(0, 0, 0);
-                Vector3D vector2 = new Vector3D(0, 0, 0);
-
+                //Two points to define a line.
+                Vector3D vector1 = new Vector3D(0, 0, 0);       //Point One. (m)
+                Vector3D vector2 = new Vector3D(0, 0, 0);       //Point Two. (m)
 
 
+                //Asking user to define initial velocity.
                 Console.WriteLine("What is the X Velocity of the object? (M/S)");
                 float tempX = float.Parse(Console.ReadLine());
                 Console.WriteLine("What is the Y Velocity of the object? (M/S)");
@@ -42,11 +43,13 @@ namespace Vector3D
                 float tempZ = float.Parse(Console.ReadLine());
                 iVelocity.SetRectGivenRect(tempX, tempY, tempZ);
 
+                //Asking user to define coefficient of Restitution
                 Console.WriteLine("What is the coefficient of Restitution, E?");
                 E = float.Parse(Console.ReadLine());
 
                 Console.WriteLine();
 
+                //Asking user to define the first Vector position of the line.
                 Console.WriteLine("What is the X coordinate of Vector One?");
                 tempX = float.Parse(Console.ReadLine());
                 Console.WriteLine("What is the Y coordinate of Vector One?");
@@ -57,69 +60,75 @@ namespace Vector3D
 
                 Console.WriteLine();
 
+                //Asking user to define the second Vector position of the line.
                 Console.WriteLine("What is the X coordinate of Vector Two?");
                 tempX = float.Parse(Console.ReadLine());
                 Console.WriteLine("What is the Y coordinate of Vector Two?");
                 tempY = float.Parse(Console.ReadLine());
                 Console.WriteLine("What is the Z coordinate of Vector Two?");
                 tempZ = float.Parse(Console.ReadLine());
-
                 vector2.SetRectGivenRect(tempX, tempY, tempZ);
 
+                //Calculating the Normal of the Two Vectors.
                 Vector3D normal = vector1.VectorCrossProduct(vector1.GetX(), vector1.GetY(), vector1.GetZ(), vector2.GetX(), vector2.GetY(), vector2.GetZ());
+                //Caluclating the Normalized Normal of the two vectors.
                 Vector3D normalNormalized = new Vector3D(normal.GetX() / normal.GetNormalizedPosition(), normal.GetY() / normal.GetNormalizedPosition(), normal.GetZ() / normal.GetNormalizedPosition());
 
+                //calculaating the final Velocity of the object.
                 fVelocity.SetRectGivenRect(
                     iVelocity.GetX() - (E + 1) * (iVelocity.DotProduct3D(normalNormalized.GetX(), normalNormalized.GetY(), normalNormalized.GetZ())) * normalNormalized.GetX(),
                     iVelocity.GetY() - (E + 1) * (iVelocity.DotProduct3D(normalNormalized.GetX(), normalNormalized.GetY(), normalNormalized.GetZ())) * normalNormalized.GetY(),
                     iVelocity.GetZ() - (E + 1) * (iVelocity.DotProduct3D(normalNormalized.GetX(), normalNormalized.GetY(), normalNormalized.GetZ())) * normalNormalized.GetZ());
 
-                Console.WriteLine("Final Velocity of Object (m/S)");
+                //Outputting velocity.
+                Console.WriteLine("Final Velocity of Object (m/s)");
                 fVelocity.PrintRect();
 
             }
             //Scenario Two
             else
             {
-                float massObj1 = 0f;
-                float iVelocityObj1 = 0f;
-                float fVelocityObj1 = 0f;
+                //Defining Object One Paramaters
+                float massObj1 = 0f;            //Mass of Object
+                float iVelocityObj1 = 0f;       //Initial Velocity (M/S)
+                float fVelocityObj1 = 0f;       //Final Velocity (M/S)
 
-                float iVelocityObj2 = 0f;
-                float fVelocityObj2 = 0f;
-                float massObj2 = 0f;
+                //Defining Object Two Paramaters
+                float massObj2 = 0f;            //Mass of Object
+                float iVelocityObj2 = 0f;       //Initial Velocity (M/S)
+                float fVelocityObj2 = 0f;       //Final Velocity (M/S)
 
-                float E = 0f;
+
+                float E = 0f;                   //Restitution Coefficient.
 
 
+                //User Definining initial Velocity, and mass, of object one.
                 Console.WriteLine("What is the Mass of Object One?  (KG)");
                 massObj1 = float.Parse(Console.ReadLine());
-
                 Console.WriteLine("What is the Velocity of Object One? (M/S)");
                 iVelocityObj1 = float.Parse(Console.ReadLine());
-
                 Console.WriteLine();
 
+                //User defining intiial velocity, and mass, of object two.
                 Console.WriteLine("What is the Mass of Object Two? (KG)");
                 massObj2 = float.Parse(Console.ReadLine());
-
                 Console.WriteLine("What is the Velocity of Object Two? (M/S)");
                 iVelocityObj2 = float.Parse(Console.ReadLine());
-
                 Console.WriteLine();
 
+                //user defining restitution coefficient.
                 Console.WriteLine("What is the coefficient of Restitution, E?");
                 E = float.Parse(Console.ReadLine());
 
+
+                //Calculating Final Velocity.
                 fVelocityObj1 = ((massObj1 - (E * massObj2)) * iVelocityObj1 + (1 + E) * massObj2 * iVelocityObj2) / (massObj1 + massObj2);
                 fVelocityObj2 = fVelocityObj1 + (E * (iVelocityObj1 - iVelocityObj2));
-
                 Console.WriteLine();
 
+                //Outputing the Final Velocity to user.
                 Console.WriteLine("Velocity of Object One: " + fVelocityObj1 + " m/s");
                 Console.WriteLine("Velocity of Object Two: " + fVelocityObj2 + " m/s");
-
-                //Theoretically the above works.
             }
 
             Console.WriteLine();
@@ -442,6 +451,7 @@ namespace Vector3D
             Z += centerZ;
         }
 
+        //Returns a cross product of Vectors V and U.
         public Vector3D VectorCrossProduct(float Vx, float Vy, float Vz, float Ux, float Uy, float Uz)
         {
             float outputX = (Vy * Uz) - (Uy * Vz);
@@ -453,6 +463,7 @@ namespace Vector3D
             return output;
         }
 
+        //Returns the Paralell Projection of Vector V and U.
         public Vector3D ParaProjection(float Vx, float Vy, float Vz, float Ux, float Uy, float Uz)
         {
             Vector3D temp = new Vector3D(Vx, Vy, Vz);
@@ -472,6 +483,7 @@ namespace Vector3D
             return temp;
         }
 
+        //Returns the perpinduclar projection of Vector V and U.
         public Vector3D PerpProjection(float Vx, float Vy, float Vz, float Ux, float Uy, float Uz)
         {
             Vector3D output = new Vector3D(Ux, Uy, Uz);
@@ -481,6 +493,7 @@ namespace Vector3D
             return output;
         }
 
+        //Returns the closest point on a 3D line to specified point, Q.
         public Vector3D Line3DClosestPoint(Vector3D P, Vector3D Pvector, Vector3D Q)
         {
             Vector3D para = new Vector3D(0, 0, 0);
@@ -492,6 +505,7 @@ namespace Vector3D
             return outputS;
         }
 
+        //Returns the Normal of a Plane.
         public Vector3D PlaneEquation(Vector3D pointOne, Vector3D pointTwo, Vector3D pointThree)
         {
             Vector3D U = new Vector3D(pointTwo.X - pointOne.X, pointTwo.Y - pointOne.Y, pointTwo.Z - pointOne.Z);
@@ -505,6 +519,7 @@ namespace Vector3D
             return Normal;
         }
 
+        //Gets the closest point on the plane PRU to the point Q.
         public Vector3D PlaneClosestPoint(Vector3D P, Vector3D R, Vector3D U, Vector3D Q)
         {
             Vector3D normal = PlaneEquation(P, R, U);
@@ -516,7 +531,5 @@ namespace Vector3D
 
             return outputS;
         }
-
-
     }
 }
